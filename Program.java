@@ -16,14 +16,5 @@ public class Program {
         } catch (FileNotFoundException e) {
             input = "2 + 2 * 2";
         }
-        Lexer lexer = new Lexer();
-        lexer.register("math", new MathGrammar());
-        ArrayList<Token> lexems = lexer.getLexems("math", input);
-        System.out.println(input);
-        for (Token lexeme: lexems) {
-            if (lexeme.getType() != "whitespace")
-                System.out.println(lexeme);
-        }
     }
 }
-

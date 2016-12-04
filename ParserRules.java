@@ -18,8 +18,14 @@ public class ParserRules {
     private String startBlockSymbol;
     private String endBlockSymbol;
     private boolean caseSensitive;
-    protected ArrayList<Character> endNumberSymbol;
+    private ArrayList<Character> endNumberSymbol;
 
+    public void addEndNumberSymbol(Character newSymbol) {
+        this.endNumberSymbol.add(newSymbol);
+    }
+    public ArrayList<Character> getEndNumberSymbol() {
+        return endNumberSymbol;
+    }
     public boolean getCaseSensitive() {
         return caseSensitive;
     }

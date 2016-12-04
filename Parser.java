@@ -116,7 +116,7 @@ public class Parser {
 
     private ArrayList<Token> parseTokens(String text, ParserRules parserRules) {
         ArrayList<Token> lexems = new ArrayList<>();
-        Character endNumberSymbol = parserRules.endNumberSymbol.get(0);
+        Character endNumberSymbol = parserRules.getEndNumberSymbol().get(0);
         Pattern specNumPattern = Pattern.compile("\\d+" + endNumberSymbol);
         Pattern numPattern = Pattern.compile("\\d+");
         char prevChar = text.charAt(0);
