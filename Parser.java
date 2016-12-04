@@ -2,6 +2,7 @@ package lexer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -9,6 +10,7 @@ import java.util.regex.PatternSyntaxException;
 public class Parser {
     public Parser() {
         keyWords = new ArrayList<>();
+
     }
 
     private ArrayList<Token> keyWords;
@@ -71,13 +73,19 @@ public class Parser {
         return tokens;
     }
 
-    private Token getToken(String text) {
+    private Token getToken(String text, Pattern numPattern, Pattern specNumPattern) {
         ArrayList<Token> tokens = getKeyWords();
         for (Token t : tokens) {
             if (t.getText().equals(text)) {
                 return t;
             }
         }
+        Matcher specNumMatcher = specNumPattern.matcher(text);
+        Matcher numMatcher = numPattern.matcher(text);
+        if (specNumMatcher.matches())
+            return new Token(text, "number", "special");
+        if (numMatcher.matches())
+            return new Token(text, "number", "real");
         return new Token(text, "other");
     }
 
@@ -103,13 +111,14 @@ public class Parser {
         return parseTokens(removeLineComments(removeBlockComments(text,
                 parserRules.getStartBlockSymbol(),
                 parserRules.getEndBlockSymbol()),
-                parserRules.getLineCommentSymbol()));
+                parserRules.getLineCommentSymbol()), parserRules);
     }
 
-    private ArrayList<Token> parseTokens(String text) {
+    private ArrayList<Token> parseTokens(String text, ParserRules parserRules) {
         ArrayList<Token> lexems = new ArrayList<>();
-        //Character.isAlphabetic()
-        //Character.isWhitespace()
+        Character endNumberSymbol = parserRules.endNumberSymbol.get(0);
+        Pattern specNumPattern = Pattern.compile("\\d+" + endNumberSymbol);
+        Pattern numPattern = Pattern.compile("\\d+");
         char prevChar = text.charAt(0);
         int prevPosition = 0;
         int i = 0;
@@ -123,7 +132,7 @@ public class Parser {
                 } else if (getCharType(prevChar) == CharType.WHITESPACE)
                     lexems.add(new Token(newToken, "whitespace"));
                 else {
-                    lexems.add(getToken(newToken));
+                    lexems.add(getToken(newToken, numPattern, specNumPattern));
                 }
                 prevChar = text.charAt(i);
                 prevPosition = i;

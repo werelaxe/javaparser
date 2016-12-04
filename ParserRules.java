@@ -1,5 +1,7 @@
 package lexer;
 
+import java.util.ArrayList;
+
 /**
  * Created by Melon on 15.11.2016.
  */
@@ -9,12 +11,14 @@ public class ParserRules {
         this.startBlockSymbol = startBlockSymbol;
         this.endBlockSymbol = endBlockSymbol;
         this.caseSensitive = caseSensitive;
+        this.endNumberSymbol = new ArrayList<>();
     }
 
     private String lineCommentSymbol;
     private String startBlockSymbol;
     private String endBlockSymbol;
     private boolean caseSensitive;
+    protected ArrayList<Character> endNumberSymbol;
 
     public boolean getCaseSensitive() {
         return caseSensitive;

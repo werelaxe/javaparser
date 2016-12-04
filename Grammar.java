@@ -1,5 +1,7 @@
 package lexer;
 
+import java.util.ArrayList;
+
 /**
  * Created by Melon on 15.11.2016.
  */
@@ -8,11 +10,12 @@ public class Grammar {
         this.parserRules = parserRules;
         this.parser = parser;
     }
-    private ParserRules parserRules;
+    protected ParserRules parserRules;
     private Parser parser;
     private String lineCommentSymbol;
     private String startBlockSymbol;
     private String endBlockSymbol;
+    protected ArrayList<Character> endNumberSymbol;
     private boolean caseSensitive;
     public boolean getCaseSensitive() {
         return caseSensitive;
